@@ -1,0 +1,2628 @@
+{
+  "prompt_version": "base.v1",
+  "set_hash": "20e62118c118",
+  "profile": "clean",
+  "judge_model": "not-used",
+  "rubric_version": "rubric.v1",
+  "elapsed": 202.6,
+  "set": "golden",
+  "gate": "daily",
+  "ran_at": "2026-10-11T18:46:24.112200+00:00",
+  "passed": 16,
+  "total": 35,
+  "skipped": 0,
+  "by_layer": {
+    "generation": {
+      "passed": 13,
+      "total": 32
+    },
+    "action": {
+      "passed": 3,
+      "total": 3
+    }
+  },
+  "coverage": {
+    "cases": 35,
+    "layers": {
+      "action": 3,
+      "generation": 32
+    },
+    "oracles": {
+      "corpus": 2,
+      "engine": 33
+    },
+    "sources": {
+      "complaint": 7,
+      "edge": 10,
+      "engine": 18
+    },
+    "severities": {
+      "critical": 8,
+      "high": 27
+    },
+    "ladder_levels": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "gates": {
+      "daily": 35
+    },
+    "human_oracle_pct": 0.0,
+    "severity_filled_pct": 100.0
+  },
+  "cases": [
+    {
+      "skipped": false,
+      "id": "FX-001",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": false,
+        "level": 2,
+        "assertion": "tool_grounded_numeric",
+        "detail": "quote_fx was never called"
+      },
+      "answers": [
+        "I can't give you a final USD amount for this conversion. I don't have a EUR/USD mid-market rate in the information available to me, and I'm not able to calculate the figure without one.\n\nHere is what I can confirm for your account (CUS-0001, Tier 1):\n\n- **FX spread:** 1.5% over the mid-market rate, applied to the gross converted amount.\n- **Free monthly conversion allowance:** EUR 500. If the whol"
+      ],
+      "latency_ms": 9475,
+      "tokens": 11585,
+      "tool_calls": [
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0001",
+              "name": "Alice Novak",
+              "tier": "tier1"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1001",
+                "customer_id": "CUS-0001",
+                "currency": "EUR",
+                "balance": 2450.3,
+                "tier": "tier1",
+                "holder": "Alice Novak"
+              }
+            ]
+          }
+        },
+        {
+          "name": "search_knowledge_base",
+          "arguments": {
+            "query": "EUR to USD conversion rate, FX spread, tier free allowance"
+          },
+          "result": {
+            "index": "kb_clean",
+            "top_k": 4,
+            "query": "EUR to USD conversion rate, FX spread, tier free allowance",
+            "fragments": [
+              {
+                "id": "tariffs.md#s2",
+                "doc": "tariffs.md",
+                "score": 2.6348,
+                "text": "Verta tariff schedule\n## FX spreads by tier\nThe spread is applied over the mid-market rate only after the free monthly\nconversion allowance is exhausted.\n\n| Tier | FX spread | Free monthly conversion allowance |\n|---|---|---|\n| Tier 1 | 1.5% | EUR 500 |\n| Tier 2 | 0.9% | EUR 1,000 |\n| Tier 3 | 0.5% | EUR 5,000 |"
+              },
+              {
+                "id": "fx-guide.md#s1",
+                "doc": "fx-guide.md",
+                "score": 2.0616,
+                "text": "Currency conversion guide\n## How a conversion is priced\nA conversion quote has these components, in order: the mid-market rate for the\ncurrency pair; the tier spread (a percentage of the gross converted amount);\nthe free monthly conversion allowance. If the whole conversion fits within the\ncustomer's remaining monthly allowance, no spread is charged. Once the\nallowance is exhausted, the full tier spread applies to the conversion."
+              },
+              {
+                "id": "fx-operations.md#s3",
+                "doc": "fx-operations.md",
+                "score": 1.8708,
+                "text": "Currency conversion operations\n## Allowance accounting\nThe free monthly conversion allowance is counted in EUR equivalent and resets on\nthe first calendar day of each month. Allowance consumption is recorded at\nsettlement. A conversion that would cross the allowance boundary has the tier\nspread applied to the entire conversion, not only to the portion above the\nboundary."
+              },
+              {
+                "id": "tariffs.md#s1",
+                "doc": "tariffs.md",
+                "score": 1.591,
+                "text": "Verta tariff schedule\n## Account tiers\nVerta offers three account tiers: Tier 1, Tier 2 and Tier 3. The tier\ndetermines the FX spread, the free monthly conversion allowance and the\ntransfer limits."
+              }
+            ]
+          }
+        },
+        {
+          "name": "check_limits",
+          "arguments": {
+            "customer_id": "CUS-0001"
+          },
+          "result": {
+            "tier": "tier1",
+            "as_of": "2026-09-15",
+            "daily_limit_eur": 5000,
+            "daily_spent_eur": 0,
+            "daily_remaining_eur": 5000,
+            "monthly_limit_eur": 50000,
+            "monthly_spent_eur": 1254.9,
+            "monthly_remaining_eur": 48745.1
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "FX-002",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": false,
+        "level": 2,
+        "assertion": "tool_grounded_numeric",
+        "detail": "quote_fx was never called"
+      },
+      "answers": [
+        "I can't give you an exact USD figure for this conversion. My sources don't include the current EUR/USD mid-market rate, and I'm not able to quote the rate from here.\n\nHere is what I can confirm for your account (CUS-0002, Tier 2):\n\n- **FX spread:** 0.9% of the converted amount, applied only once your free monthly conversion allowance is used up.\n- **Free monthly conversion allowance:** EUR 1,000, "
+      ],
+      "latency_ms": 6307,
+      "tokens": 7566,
+      "tool_calls": [
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0002",
+              "name": "Borys Tkachenko",
+              "tier": "tier2"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1002",
+                "customer_id": "CUS-0002",
+                "currency": "EUR",
+                "balance": 8900.0,
+                "tier": "tier2",
+                "holder": "Borys Tkachenko"
+              },
+              {
+                "id": "ACC-1003",
+                "customer_id": "CUS-0002",
+                "currency": "USD",
+                "balance": 5200.75,
+                "tier": "tier2",
+                "holder": "Borys Tkachenko"
+              }
+            ]
+          }
+        },
+        {
+          "name": "search_knowledge_base",
+          "arguments": {
+            "query": "EUR to USD currency conversion rate, spread, and free allowance by tier"
+          },
+          "result": {
+            "index": "kb_clean",
+            "top_k": 4,
+            "query": "EUR to USD currency conversion rate, spread, and free allowance by tier",
+            "fragments": [
+              {
+                "id": "tariffs.md#s2",
+                "doc": "tariffs.md",
+                "score": 2.4962,
+                "text": "Verta tariff schedule\n## FX spreads by tier\nThe spread is applied over the mid-market rate only after the free monthly\nconversion allowance is exhausted.\n\n| Tier | FX spread | Free monthly conversion allowance |\n|---|---|---|\n| Tier 1 | 1.5% | EUR 500 |\n| Tier 2 | 0.9% | EUR 1,000 |\n| Tier 3 | 0.5% | EUR 5,000 |"
+              },
+              {
+                "id": "fx-guide.md#s1",
+                "doc": "fx-guide.md",
+                "score": 2.3041,
+                "text": "Currency conversion guide\n## How a conversion is priced\nA conversion quote has these components, in order: the mid-market rate for the\ncurrency pair; the tier spread (a percentage of the gross converted amount);\nthe free monthly conversion allowance. If the whole conversion fits within the\ncustomer's remaining monthly allowance, no spread is charged. Once the\nallowance is exhausted, the full tier spread applies to the conversion."
+              },
+              {
+                "id": "fx-operations.md#s3",
+                "doc": "fx-operations.md",
+                "score": 2.1381,
+                "text": "Currency conversion operations\n## Allowance accounting\nThe free monthly conversion allowance is counted in EUR equivalent and resets on\nthe first calendar day of each month. Allowance consumption is recorded at\nsettlement. A conversion that would cross the allowance boundary has the tier\nspread applied to the entire conversion, not only to the portion above the\nboundary."
+              },
+              {
+                "id": "limits.md#s1",
+                "doc": "limits.md",
+                "score": 1.8475,
+                "text": "Transfer limits\n## Daily and monthly limits by tier\nOutgoing transfer limits are tracked in EUR equivalent, separately per day and\nper calendar month. The daily and the monthly remainder are different numbers:\nboth are computed from the same settled-transactions source, but over\ndifferent windows.\n\n| Tier | Daily limit | Monthly limit |\n|---|---|---|\n| Tier 1 | EUR 5,000 | EUR 50,000 |\n| Tier 2 | EUR 20,000 | EUR 200,000 |\n| Tier 3 | EUR 100,000 | EUR 1,000,000 |"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "FX-003",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": false,
+        "level": 2,
+        "assertion": "tool_grounded_numeric",
+        "detail": "quote_fx was never called"
+      },
+      "answers": [
+        "I can't give you the final USD amount. My tools don't provide a EUR/USD mid-market rate, so I can't calculate the conversion.\n\nHere is what I can confirm from your account and Verta's tariff documents:\n\n- **Account:** CUS-0005 (Tier 2), EUR account ACC-1006.\n- **Tier 2 FX spread:** 0.9% over the mid-market rate.\n- **Free monthly conversion allowance:** EUR 1,000.\n- **How the spread applies:** If t"
+      ],
+      "latency_ms": 7658,
+      "tokens": 7548,
+      "tool_calls": [
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0005",
+              "name": "Emma Rossi",
+              "tier": "tier2"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1006",
+                "customer_id": "CUS-0005",
+                "currency": "EUR",
+                "balance": 12400.0,
+                "tier": "tier2",
+                "holder": "Emma Rossi"
+              }
+            ]
+          }
+        },
+        {
+          "name": "search_knowledge_base",
+          "arguments": {
+            "query": "EUR to USD conversion rate spread tier free allowance"
+          },
+          "result": {
+            "index": "kb_clean",
+            "top_k": 4,
+            "query": "EUR to USD conversion rate spread tier free allowance",
+            "fragments": [
+              {
+                "id": "tariffs.md#s2",
+                "doc": "tariffs.md",
+                "score": 2.3575,
+                "text": "Verta tariff schedule\n## FX spreads by tier\nThe spread is applied over the mid-market rate only after the free monthly\nconversion allowance is exhausted.\n\n| Tier | FX spread | Free monthly conversion allowance |\n|---|---|---|\n| Tier 1 | 1.5% | EUR 500 |\n| Tier 2 | 0.9% | EUR 1,000 |\n| Tier 3 | 0.5% | EUR 5,000 |"
+              },
+              {
+                "id": "fx-guide.md#s1",
+                "doc": "fx-guide.md",
+                "score": 2.0616,
+                "text": "Currency conversion guide\n## How a conversion is priced\nA conversion quote has these components, in order: the mid-market rate for the\ncurrency pair; the tier spread (a percentage of the gross converted amount);\nthe free monthly conversion allowance. If the whole conversion fits within the\ncustomer's remaining monthly allowance, no spread is charged. Once the\nallowance is exhausted, the full tier spread applies to the conversion."
+              },
+              {
+                "id": "fx-operations.md#s3",
+                "doc": "fx-operations.md",
+                "score": 1.8708,
+                "text": "Currency conversion operations\n## Allowance accounting\nThe free monthly conversion allowance is counted in EUR equivalent and resets on\nthe first calendar day of each month. Allowance consumption is recorded at\nsettlement. A conversion that would cross the allowance boundary has the tier\nspread applied to the entire conversion, not only to the portion above the\nboundary."
+              },
+              {
+                "id": "tariffs.md#s1",
+                "doc": "tariffs.md",
+                "score": 1.4142,
+                "text": "Verta tariff schedule\n## Account tiers\nVerta offers three account tiers: Tier 1, Tier 2 and Tier 3. The tier\ndetermines the FX spread, the free monthly conversion allowance and the\ntransfer limits."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "FX-003-S",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": true,
+        "level": 3,
+        "assertion": "contains",
+        "detail": ""
+      },
+      "answers": [
+        "For Tier 2 (your account, CUS-0005), the FX spread is **0.9%**.\n\nYour monthly free conversion allowance is EUR 1,000. A EUR 6,000 conversion is larger than that entire allowance, so it can't fit within it, and the spread applies to the full amount:\n\n- Spread: 0.9% × EUR 6,000 = **EUR 54.00**\n- Free allowance applied: none (the conversion exceeds the EUR 1,000 monthly allowance)\n\nI can't give you t"
+      ],
+      "latency_ms": 5394,
+      "tokens": 7180,
+      "tool_calls": [
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0005",
+              "name": "Emma Rossi",
+              "tier": "tier2"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1006",
+                "customer_id": "CUS-0005",
+                "currency": "EUR",
+                "balance": 12400.0,
+                "tier": "tier2",
+                "holder": "Emma Rossi"
+              }
+            ]
+          }
+        },
+        {
+          "name": "search_knowledge_base",
+          "arguments": {
+            "query": "FX spread EUR to USD conversion tier spread free allowance"
+          },
+          "result": {
+            "index": "kb_clean",
+            "top_k": 4,
+            "query": "FX spread EUR to USD conversion tier spread free allowance",
+            "fragments": [
+              {
+                "id": "tariffs.md#s2",
+                "doc": "tariffs.md",
+                "score": 2.4962,
+                "text": "Verta tariff schedule\n## FX spreads by tier\nThe spread is applied over the mid-market rate only after the free monthly\nconversion allowance is exhausted.\n\n| Tier | FX spread | Free monthly conversion allowance |\n|---|---|---|\n| Tier 1 | 1.5% | EUR 500 |\n| Tier 2 | 0.9% | EUR 1,000 |\n| Tier 3 | 0.5% | EUR 5,000 |"
+              },
+              {
+                "id": "fx-guide.md#s1",
+                "doc": "fx-guide.md",
+                "score": 1.9403,
+                "text": "Currency conversion guide\n## How a conversion is priced\nA conversion quote has these components, in order: the mid-market rate for the\ncurrency pair; the tier spread (a percentage of the gross converted amount);\nthe free monthly conversion allowance. If the whole conversion fits within the\ncustomer's remaining monthly allowance, no spread is charged. Once the\nallowance is exhausted, the full tier spread applies to the conversion."
+              },
+              {
+                "id": "fx-operations.md#s3",
+                "doc": "fx-operations.md",
+                "score": 1.8708,
+                "text": "Currency conversion operations\n## Allowance accounting\nThe free monthly conversion allowance is counted in EUR equivalent and resets on\nthe first calendar day of each month. Allowance consumption is recorded at\nsettlement. A conversion that would cross the allowance boundary has the tier\nspread applied to the entire conversion, not only to the portion above the\nboundary."
+              },
+              {
+                "id": "tariffs.md#s1",
+                "doc": "tariffs.md",
+                "score": 1.591,
+                "text": "Verta tariff schedule\n## Account tiers\nVerta offers three account tiers: Tier 1, Tier 2 and Tier 3. The tier\ndetermines the FX spread, the free monthly conversion allowance and the\ntransfer limits."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "FX-C07",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": false,
+        "level": 2,
+        "assertion": "tool_grounded_numeric",
+        "detail": "quote_fx was never called"
+      },
+      "answers": [
+        "I can't give you the final USD amount because I don't have the EUR/USD mid-market rate. Our documentation doesn't provide it, and I'm not able to get a formal quote for this conversion from here.\n\nWhat I can confirm for your tier (Tier 2):\n\n- **Tier 2 FX spread:** 0.9% of the gross converted amount\n- **Free monthly conversion allowance:** EUR 1,000\n- **Spread on this conversion:** 0.9% × EUR 2,000"
+      ],
+      "latency_ms": 6512,
+      "tokens": 7475,
+      "tool_calls": [
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0007",
+              "name": "Greta Lindqvist",
+              "tier": "tier2"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1008",
+                "customer_id": "CUS-0007",
+                "currency": "EUR",
+                "balance": 27600.0,
+                "tier": "tier2",
+                "holder": "Greta Lindqvist"
+              }
+            ]
+          }
+        },
+        {
+          "name": "search_knowledge_base",
+          "arguments": {
+            "query": "EUR to USD currency conversion spread free allowance mid rate tiers"
+          },
+          "result": {
+            "index": "kb_clean",
+            "top_k": 4,
+            "query": "EUR to USD currency conversion spread free allowance mid rate tiers",
+            "fragments": [
+              {
+                "id": "fx-guide.md#s1",
+                "doc": "fx-guide.md",
+                "score": 2.1828,
+                "text": "Currency conversion guide\n## How a conversion is priced\nA conversion quote has these components, in order: the mid-market rate for the\ncurrency pair; the tier spread (a percentage of the gross converted amount);\nthe free monthly conversion allowance. If the whole conversion fits within the\ncustomer's remaining monthly allowance, no spread is charged. Once the\nallowance is exhausted, the full tier spread applies to the conversion."
+              },
+              {
+                "id": "fx-operations.md#s3",
+                "doc": "fx-operations.md",
+                "score": 1.8708,
+                "text": "Currency conversion operations\n## Allowance accounting\nThe free monthly conversion allowance is counted in EUR equivalent and resets on\nthe first calendar day of each month. Allowance consumption is recorded at\nsettlement. A conversion that would cross the allowance boundary has the tier\nspread applied to the entire conversion, not only to the portion above the\nboundary."
+              },
+              {
+                "id": "tariffs.md#s2",
+                "doc": "tariffs.md",
+                "score": 1.8028,
+                "text": "Verta tariff schedule\n## FX spreads by tier\nThe spread is applied over the mid-market rate only after the free monthly\nconversion allowance is exhausted.\n\n| Tier | FX spread | Free monthly conversion allowance |\n|---|---|---|\n| Tier 1 | 1.5% | EUR 500 |\n| Tier 2 | 0.9% | EUR 1,000 |\n| Tier 3 | 0.5% | EUR 5,000 |"
+              },
+              {
+                "id": "fx-guide.md#s2",
+                "doc": "fx-guide.md",
+                "score": 1.5076,
+                "text": "Currency conversion guide\n## Reading a quote\nA complete quote lists: mid rate, spread percentage applied, allowance total\nand allowance used before this conversion, gross converted amount, spread\namount, and the final credited amount. The final amount equals the gross\namount minus the spread amount."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "FX-C07-S",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": true,
+        "level": 3,
+        "assertion": "contains",
+        "detail": ""
+      },
+      "answers": [
+        "Your account is Tier 2 (CUS-0007, Greta Lindqvist), so the following applies:\n\n- **FX spread:** 0.9% over the mid-market rate\n- **Free monthly conversion allowance:** EUR 1,000\n\nA EUR 2,000 conversion is larger than the entire monthly allowance, so it cannot fit within it. Under our conversion rules, when a conversion crosses the allowance boundary, the spread applies to the whole amount, not just"
+      ],
+      "latency_ms": 5697,
+      "tokens": 7246,
+      "tool_calls": [
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0007",
+              "name": "Greta Lindqvist",
+              "tier": "tier2"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1008",
+                "customer_id": "CUS-0007",
+                "currency": "EUR",
+                "balance": 27600.0,
+                "tier": "tier2",
+                "holder": "Greta Lindqvist"
+              }
+            ]
+          }
+        },
+        {
+          "name": "search_knowledge_base",
+          "arguments": {
+            "query": "FX spread EUR to USD conversion tier spread free allowance"
+          },
+          "result": {
+            "index": "kb_clean",
+            "top_k": 4,
+            "query": "FX spread EUR to USD conversion tier spread free allowance",
+            "fragments": [
+              {
+                "id": "tariffs.md#s2",
+                "doc": "tariffs.md",
+                "score": 2.4962,
+                "text": "Verta tariff schedule\n## FX spreads by tier\nThe spread is applied over the mid-market rate only after the free monthly\nconversion allowance is exhausted.\n\n| Tier | FX spread | Free monthly conversion allowance |\n|---|---|---|\n| Tier 1 | 1.5% | EUR 500 |\n| Tier 2 | 0.9% | EUR 1,000 |\n| Tier 3 | 0.5% | EUR 5,000 |"
+              },
+              {
+                "id": "fx-guide.md#s1",
+                "doc": "fx-guide.md",
+                "score": 1.9403,
+                "text": "Currency conversion guide\n## How a conversion is priced\nA conversion quote has these components, in order: the mid-market rate for the\ncurrency pair; the tier spread (a percentage of the gross converted amount);\nthe free monthly conversion allowance. If the whole conversion fits within the\ncustomer's remaining monthly allowance, no spread is charged. Once the\nallowance is exhausted, the full tier spread applies to the conversion."
+              },
+              {
+                "id": "fx-operations.md#s3",
+                "doc": "fx-operations.md",
+                "score": 1.8708,
+                "text": "Currency conversion operations\n## Allowance accounting\nThe free monthly conversion allowance is counted in EUR equivalent and resets on\nthe first calendar day of each month. Allowance consumption is recorded at\nsettlement. A conversion that would cross the allowance boundary has the tier\nspread applied to the entire conversion, not only to the portion above the\nboundary."
+              },
+              {
+                "id": "tariffs.md#s1",
+                "doc": "tariffs.md",
+                "score": 1.591,
+                "text": "Verta tariff schedule\n## Account tiers\nVerta offers three account tiers: Tier 1, Tier 2 and Tier 3. The tier\ndetermines the FX spread, the free monthly conversion allowance and the\ntransfer limits."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "FX-005",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": false,
+        "level": 2,
+        "assertion": "tool_grounded_numeric",
+        "detail": "quote_fx was never called"
+      },
+      "answers": [
+        "I can't give you an exact EUR amount for this conversion from the information I have.\n\n**What I can confirm:**\n- You are on **Tier 3**.\n- Tier 3 has a **0.5% FX spread**, applied only after your free monthly conversion allowance is used up.\n- The Tier 3 free monthly allowance is **EUR 5,000**, counted in EUR equivalent and reset on the first day of each month.\n- If the whole conversion fits within"
+      ],
+      "latency_ms": 5835,
+      "tokens": 7507,
+      "tool_calls": [
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0010",
+              "name": "Jonas Weber",
+              "tier": "tier3"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1011",
+                "customer_id": "CUS-0010",
+                "currency": "GBP",
+                "balance": 61200.0,
+                "tier": "tier3",
+                "holder": "Jonas Weber"
+              }
+            ]
+          }
+        },
+        {
+          "name": "search_knowledge_base",
+          "arguments": {
+            "query": "currency conversion GBP to EUR rate spread free allowance by tier"
+          },
+          "result": {
+            "index": "kb_clean",
+            "top_k": 4,
+            "query": "currency conversion GBP to EUR rate spread free allowance by tier",
+            "fragments": [
+              {
+                "id": "tariffs.md#s2",
+                "doc": "tariffs.md",
+                "score": 2.4962,
+                "text": "Verta tariff schedule\n## FX spreads by tier\nThe spread is applied over the mid-market rate only after the free monthly\nconversion allowance is exhausted.\n\n| Tier | FX spread | Free monthly conversion allowance |\n|---|---|---|\n| Tier 1 | 1.5% | EUR 500 |\n| Tier 2 | 0.9% | EUR 1,000 |\n| Tier 3 | 0.5% | EUR 5,000 |"
+              },
+              {
+                "id": "fx-guide.md#s1",
+                "doc": "fx-guide.md",
+                "score": 2.3041,
+                "text": "Currency conversion guide\n## How a conversion is priced\nA conversion quote has these components, in order: the mid-market rate for the\ncurrency pair; the tier spread (a percentage of the gross converted amount);\nthe free monthly conversion allowance. If the whole conversion fits within the\ncustomer's remaining monthly allowance, no spread is charged. Once the\nallowance is exhausted, the full tier spread applies to the conversion."
+              },
+              {
+                "id": "fx-operations.md#s3",
+                "doc": "fx-operations.md",
+                "score": 2.0045,
+                "text": "Currency conversion operations\n## Allowance accounting\nThe free monthly conversion allowance is counted in EUR equivalent and resets on\nthe first calendar day of each month. Allowance consumption is recorded at\nsettlement. A conversion that would cross the allowance boundary has the tier\nspread applied to the entire conversion, not only to the portion above the\nboundary."
+              },
+              {
+                "id": "limits.md#s1",
+                "doc": "limits.md",
+                "score": 1.5011,
+                "text": "Transfer limits\n## Daily and monthly limits by tier\nOutgoing transfer limits are tracked in EUR equivalent, separately per day and\nper calendar month. The daily and the monthly remainder are different numbers:\nboth are computed from the same settled-transactions source, but over\ndifferent windows.\n\n| Tier | Daily limit | Monthly limit |\n|---|---|---|\n| Tier 1 | EUR 5,000 | EUR 50,000 |\n| Tier 2 | EUR 20,000 | EUR 200,000 |\n| Tier 3 | EUR 100,000 | EUR 1,000,000 |"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "FX-006",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": false,
+        "level": 2,
+        "assertion": "tool_grounded_numeric",
+        "detail": "quote_fx was never called"
+      },
+      "answers": [
+        "I can't give you the exact USD amount from the information I have, because the mid-market EUR/USD rate isn't in my available data.\n\nHere is how your conversion would be priced, based on Verta's tariff schedule and FX guide:\n\n- **Your tier:** Tier 2 (from your account record).\n- **Free monthly conversion allowance:** EUR 1,000. Your remaining allowance this month is not shown in the data I can acce"
+      ],
+      "latency_ms": 6900,
+      "tokens": 7541,
+      "tool_calls": [
+        {
+          "name": "search_knowledge_base",
+          "arguments": {
+            "query": "EUR to USD currency conversion rate spread free allowance"
+          },
+          "result": {
+            "index": "kb_clean",
+            "top_k": 4,
+            "query": "EUR to USD currency conversion rate spread free allowance",
+            "fragments": [
+              {
+                "id": "fx-guide.md#s1",
+                "doc": "fx-guide.md",
+                "score": 2.0616,
+                "text": "Currency conversion guide\n## How a conversion is priced\nA conversion quote has these components, in order: the mid-market rate for the\ncurrency pair; the tier spread (a percentage of the gross converted amount);\nthe free monthly conversion allowance. If the whole conversion fits within the\ncustomer's remaining monthly allowance, no spread is charged. Once the\nallowance is exhausted, the full tier spread applies to the conversion."
+              },
+              {
+                "id": "fx-operations.md#s3",
+                "doc": "fx-operations.md",
+                "score": 1.8708,
+                "text": "Currency conversion operations\n## Allowance accounting\nThe free monthly conversion allowance is counted in EUR equivalent and resets on\nthe first calendar day of each month. Allowance consumption is recorded at\nsettlement. A conversion that would cross the allowance boundary has the tier\nspread applied to the entire conversion, not only to the portion above the\nboundary."
+              },
+              {
+                "id": "tariffs.md#s2",
+                "doc": "tariffs.md",
+                "score": 1.6641,
+                "text": "Verta tariff schedule\n## FX spreads by tier\nThe spread is applied over the mid-market rate only after the free monthly\nconversion allowance is exhausted.\n\n| Tier | FX spread | Free monthly conversion allowance |\n|---|---|---|\n| Tier 1 | 1.5% | EUR 500 |\n| Tier 2 | 0.9% | EUR 1,000 |\n| Tier 3 | 0.5% | EUR 5,000 |"
+              },
+              {
+                "id": "fx-guide.md#s2",
+                "doc": "fx-guide.md",
+                "score": 1.3568,
+                "text": "Currency conversion guide\n## Reading a quote\nA complete quote lists: mid rate, spread percentage applied, allowance total\nand allowance used before this conversion, gross converted amount, spread\namount, and the final credited amount. The final amount equals the gross\namount minus the spread amount."
+              }
+            ]
+          }
+        },
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0007",
+              "name": "Greta Lindqvist",
+              "tier": "tier2"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1008",
+                "customer_id": "CUS-0007",
+                "currency": "EUR",
+                "balance": 27600.0,
+                "tier": "tier2",
+                "holder": "Greta Lindqvist"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "FX-006-S",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": false,
+        "level": 4,
+        "assertion": "not_contains",
+        "detail": "forbidden '0.9%' appeared in the answer"
+      },
+      "answers": [
+        "Your account is on **Tier 2**, which carries an FX spread of **0.9%** over the mid-market rate.\n\nSpread and allowance work as follows:\n- **Free monthly conversion allowance (Tier 2):** EUR 1,000.\n- If the whole conversion fits within your remaining monthly allowance, no spread is charged.\n- Once the allowance is used up, the 0.9% spread applies to the converted amount.\n\nFor a EUR 1,000 conversion "
+      ],
+      "latency_ms": 5600,
+      "tokens": 7344,
+      "tool_calls": [
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0007",
+              "name": "Greta Lindqvist",
+              "tier": "tier2"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1008",
+                "customer_id": "CUS-0007",
+                "currency": "EUR",
+                "balance": 27600.0,
+                "tier": "tier2",
+                "holder": "Greta Lindqvist"
+              }
+            ]
+          }
+        },
+        {
+          "name": "search_knowledge_base",
+          "arguments": {
+            "query": "FX spread EUR to USD conversion tier"
+          },
+          "result": {
+            "index": "kb_clean",
+            "top_k": 4,
+            "query": "FX spread EUR to USD conversion tier",
+            "fragments": [
+              {
+                "id": "tariffs.md#s2",
+                "doc": "tariffs.md",
+                "score": 1.9415,
+                "text": "Verta tariff schedule\n## FX spreads by tier\nThe spread is applied over the mid-market rate only after the free monthly\nconversion allowance is exhausted.\n\n| Tier | FX spread | Free monthly conversion allowance |\n|---|---|---|\n| Tier 1 | 1.5% | EUR 500 |\n| Tier 2 | 0.9% | EUR 1,000 |\n| Tier 3 | 0.5% | EUR 5,000 |"
+              },
+              {
+                "id": "fx-guide.md#s1",
+                "doc": "fx-guide.md",
+                "score": 1.4552,
+                "text": "Currency conversion guide\n## How a conversion is priced\nA conversion quote has these components, in order: the mid-market rate for the\ncurrency pair; the tier spread (a percentage of the gross converted amount);\nthe free monthly conversion allowance. If the whole conversion fits within the\ncustomer's remaining monthly allowance, no spread is charged. Once the\nallowance is exhausted, the full tier spread applies to the conversion."
+              },
+              {
+                "id": "limits.md#s1",
+                "doc": "limits.md",
+                "score": 1.3856,
+                "text": "Transfer limits\n## Daily and monthly limits by tier\nOutgoing transfer limits are tracked in EUR equivalent, separately per day and\nper calendar month. The daily and the monthly remainder are different numbers:\nboth are computed from the same settled-transactions source, but over\ndifferent windows.\n\n| Tier | Daily limit | Monthly limit |\n|---|---|---|\n| Tier 1 | EUR 5,000 | EUR 50,000 |\n| Tier 2 | EUR 20,000 | EUR 200,000 |\n| Tier 3 | EUR 100,000 | EUR 1,000,000 |"
+              },
+              {
+                "id": "tariffs.md#s1",
+                "doc": "tariffs.md",
+                "score": 1.2374,
+                "text": "Verta tariff schedule\n## Account tiers\nVerta offers three account tiers: Tier 1, Tier 2 and Tier 3. The tier\ndetermines the FX spread, the free monthly conversion allowance and the\ntransfer limits."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "FX-007",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": false,
+        "level": 2,
+        "assertion": "tool_grounded_numeric",
+        "detail": "quote_fx was never called"
+      },
+      "answers": [
+        "I can't give you an exact USD figure for this conversion. I don't have a EUR/USD mid-market rate in my available data, so I can't calculate the final amount.\n\nHere is what I can confirm from the Verta tariff schedule for your tier (Tier 2):\n\n- **FX spread:** 0.9% of the gross converted amount, applied only once your free monthly conversion allowance is used up.\n- **Free monthly conversion allowanc"
+      ],
+      "latency_ms": 6658,
+      "tokens": 7512,
+      "tool_calls": [
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0007",
+              "name": "Greta Lindqvist",
+              "tier": "tier2"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1008",
+                "customer_id": "CUS-0007",
+                "currency": "EUR",
+                "balance": 27600.0,
+                "tier": "tier2",
+                "holder": "Greta Lindqvist"
+              }
+            ]
+          }
+        },
+        {
+          "name": "search_knowledge_base",
+          "arguments": {
+            "query": "EUR to USD currency conversion rate spread free allowance tariff"
+          },
+          "result": {
+            "index": "kb_clean",
+            "top_k": 4,
+            "query": "EUR to USD currency conversion rate spread free allowance tariff",
+            "fragments": [
+              {
+                "id": "fx-guide.md#s1",
+                "doc": "fx-guide.md",
+                "score": 2.0616,
+                "text": "Currency conversion guide\n## How a conversion is priced\nA conversion quote has these components, in order: the mid-market rate for the\ncurrency pair; the tier spread (a percentage of the gross converted amount);\nthe free monthly conversion allowance. If the whole conversion fits within the\ncustomer's remaining monthly allowance, no spread is charged. Once the\nallowance is exhausted, the full tier spread applies to the conversion."
+              },
+              {
+                "id": "fx-operations.md#s3",
+                "doc": "fx-operations.md",
+                "score": 1.8708,
+                "text": "Currency conversion operations\n## Allowance accounting\nThe free monthly conversion allowance is counted in EUR equivalent and resets on\nthe first calendar day of each month. Allowance consumption is recorded at\nsettlement. A conversion that would cross the allowance boundary has the tier\nspread applied to the entire conversion, not only to the portion above the\nboundary."
+              },
+              {
+                "id": "tariffs.md#s2",
+                "doc": "tariffs.md",
+                "score": 1.8028,
+                "text": "Verta tariff schedule\n## FX spreads by tier\nThe spread is applied over the mid-market rate only after the free monthly\nconversion allowance is exhausted.\n\n| Tier | FX spread | Free monthly conversion allowance |\n|---|---|---|\n| Tier 1 | 1.5% | EUR 500 |\n| Tier 2 | 0.9% | EUR 1,000 |\n| Tier 3 | 0.5% | EUR 5,000 |"
+              },
+              {
+                "id": "fx-guide.md#s2",
+                "doc": "fx-guide.md",
+                "score": 1.3568,
+                "text": "Currency conversion guide\n## Reading a quote\nA complete quote lists: mid rate, spread percentage applied, allowance total\nand allowance used before this conversion, gross converted amount, spread\namount, and the final credited amount. The final amount equals the gross\namount minus the spread amount."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "FX-007-S",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": true,
+        "level": 3,
+        "assertion": "contains",
+        "detail": ""
+      },
+      "answers": [
+        "The spread for your account (CUS-0007, tier 2) is **0.9%**.\n\nFor a EUR 1,001 conversion to USD:\n\n- **Free monthly allowance (tier 2):** EUR 1,000. Because EUR 1,001 is larger than the full monthly allowance, the conversion crosses the allowance boundary. The spread therefore applies to the entire amount, not just the EUR 1 above the limit.\n- **Spread:** 0.9% × EUR 1,001 = **EUR 9.01** (approx.)\n\nI"
+      ],
+      "latency_ms": 5279,
+      "tokens": 7297,
+      "tool_calls": [
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0007",
+              "name": "Greta Lindqvist",
+              "tier": "tier2"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1008",
+                "customer_id": "CUS-0007",
+                "currency": "EUR",
+                "balance": 27600.0,
+                "tier": "tier2",
+                "holder": "Greta Lindqvist"
+              }
+            ]
+          }
+        },
+        {
+          "name": "search_knowledge_base",
+          "arguments": {
+            "query": "FX spread currency conversion EUR to USD by customer tier"
+          },
+          "result": {
+            "index": "kb_clean",
+            "top_k": 4,
+            "query": "FX spread currency conversion EUR to USD by customer tier",
+            "fragments": [
+              {
+                "id": "tariffs.md#s2",
+                "doc": "tariffs.md",
+                "score": 2.0801,
+                "text": "Verta tariff schedule\n## FX spreads by tier\nThe spread is applied over the mid-market rate only after the free monthly\nconversion allowance is exhausted.\n\n| Tier | FX spread | Free monthly conversion allowance |\n|---|---|---|\n| Tier 1 | 1.5% | EUR 500 |\n| Tier 2 | 0.9% | EUR 1,000 |\n| Tier 3 | 0.5% | EUR 5,000 |"
+              },
+              {
+                "id": "fx-guide.md#s1",
+                "doc": "fx-guide.md",
+                "score": 1.819,
+                "text": "Currency conversion guide\n## How a conversion is priced\nA conversion quote has these components, in order: the mid-market rate for the\ncurrency pair; the tier spread (a percentage of the gross converted amount);\nthe free monthly conversion allowance. If the whole conversion fits within the\ncustomer's remaining monthly allowance, no spread is charged. Once the\nallowance is exhausted, the full tier spread applies to the conversion."
+              },
+              {
+                "id": "limits.md#s1",
+                "doc": "limits.md",
+                "score": 1.5011,
+                "text": "Transfer limits\n## Daily and monthly limits by tier\nOutgoing transfer limits are tracked in EUR equivalent, separately per day and\nper calendar month. The daily and the monthly remainder are different numbers:\nboth are computed from the same settled-transactions source, but over\ndifferent windows.\n\n| Tier | Daily limit | Monthly limit |\n|---|---|---|\n| Tier 1 | EUR 5,000 | EUR 50,000 |\n| Tier 2 | EUR 20,000 | EUR 200,000 |\n| Tier 3 | EUR 100,000 | EUR 1,000,000 |"
+              },
+              {
+                "id": "fx-operations.md#s3",
+                "doc": "fx-operations.md",
+                "score": 1.3363,
+                "text": "Currency conversion operations\n## Allowance accounting\nThe free monthly conversion allowance is counted in EUR equivalent and resets on\nthe first calendar day of each month. Allowance consumption is recorded at\nsettlement. A conversion that would cross the allowance boundary has the tier\nspread applied to the entire conversion, not only to the portion above the\nboundary."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "FX-008",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": false,
+        "level": 2,
+        "assertion": "tool_grounded_numeric",
+        "detail": "quote_fx was never called"
+      },
+      "answers": [
+        "I can't give you the final USD amount, because I don't have a EUR/USD mid-market rate available in my tools or the documentation I searched.\n\nWhat I can confirm for your account (tier 1):\n\n- **FX spread:** 1.5%, applied only once your free monthly conversion allowance is used up.\n- **Free monthly allowance:** EUR 500. A conversion that fits within the remaining allowance has no spread charged.\n- *"
+      ],
+      "latency_ms": 9165,
+      "tokens": 11666,
+      "tool_calls": [
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0001",
+              "name": "Alice Novak",
+              "tier": "tier1"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1001",
+                "customer_id": "CUS-0001",
+                "currency": "EUR",
+                "balance": 2450.3,
+                "tier": "tier1",
+                "holder": "Alice Novak"
+              }
+            ]
+          }
+        },
+        {
+          "name": "search_knowledge_base",
+          "arguments": {
+            "query": "EUR to USD currency conversion rate spread free allowance tier"
+          },
+          "result": {
+            "index": "kb_clean",
+            "top_k": 4,
+            "query": "EUR to USD currency conversion rate spread free allowance tier",
+            "fragments": [
+              {
+                "id": "tariffs.md#s2",
+                "doc": "tariffs.md",
+                "score": 2.3575,
+                "text": "Verta tariff schedule\n## FX spreads by tier\nThe spread is applied over the mid-market rate only after the free monthly\nconversion allowance is exhausted.\n\n| Tier | FX spread | Free monthly conversion allowance |\n|---|---|---|\n| Tier 1 | 1.5% | EUR 500 |\n| Tier 2 | 0.9% | EUR 1,000 |\n| Tier 3 | 0.5% | EUR 5,000 |"
+              },
+              {
+                "id": "fx-guide.md#s1",
+                "doc": "fx-guide.md",
+                "score": 2.3041,
+                "text": "Currency conversion guide\n## How a conversion is priced\nA conversion quote has these components, in order: the mid-market rate for the\ncurrency pair; the tier spread (a percentage of the gross converted amount);\nthe free monthly conversion allowance. If the whole conversion fits within the\ncustomer's remaining monthly allowance, no spread is charged. Once the\nallowance is exhausted, the full tier spread applies to the conversion."
+              },
+              {
+                "id": "fx-operations.md#s3",
+                "doc": "fx-operations.md",
+                "score": 2.0045,
+                "text": "Currency conversion operations\n## Allowance accounting\nThe free monthly conversion allowance is counted in EUR equivalent and resets on\nthe first calendar day of each month. Allowance consumption is recorded at\nsettlement. A conversion that would cross the allowance boundary has the tier\nspread applied to the entire conversion, not only to the portion above the\nboundary."
+              },
+              {
+                "id": "tariffs.md#s1",
+                "doc": "tariffs.md",
+                "score": 1.4142,
+                "text": "Verta tariff schedule\n## Account tiers\nVerta offers three account tiers: Tier 1, Tier 2 and Tier 3. The tier\ndetermines the FX spread, the free monthly conversion allowance and the\ntransfer limits."
+              }
+            ]
+          }
+        },
+        {
+          "name": "check_limits",
+          "arguments": {
+            "customer_id": "CUS-0001"
+          },
+          "result": {
+            "tier": "tier1",
+            "as_of": "2026-09-15",
+            "daily_limit_eur": 5000,
+            "daily_spent_eur": 0,
+            "daily_remaining_eur": 5000,
+            "monthly_limit_eur": 50000,
+            "monthly_spent_eur": 1254.9,
+            "monthly_remaining_eur": 48745.1
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "FX-008-S",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": false,
+        "level": 4,
+        "assertion": "not_contains",
+        "detail": "forbidden '1.5%' appeared in the answer"
+      },
+      "answers": [
+        "As a Tier 1 customer, your FX spread is **1.5%** over the mid-market rate.\n\nThe spread only applies once your free monthly conversion allowance is used up. Under Tier 1, that allowance is **EUR 500** per calendar month, counted in EUR equivalent and reset on the first day of each month. The rules work like this:\n\n- **If the 380 EUR conversion fits within your remaining allowance for the month**, n"
+      ],
+      "latency_ms": 5763,
+      "tokens": 7210,
+      "tool_calls": [
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0001",
+              "name": "Alice Novak",
+              "tier": "tier1"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1001",
+                "customer_id": "CUS-0001",
+                "currency": "EUR",
+                "balance": 2450.3,
+                "tier": "tier1",
+                "holder": "Alice Novak"
+              }
+            ]
+          }
+        },
+        {
+          "name": "search_knowledge_base",
+          "arguments": {
+            "query": "FX spread EUR to USD conversion tier spread free allowance"
+          },
+          "result": {
+            "index": "kb_clean",
+            "top_k": 4,
+            "query": "FX spread EUR to USD conversion tier spread free allowance",
+            "fragments": [
+              {
+                "id": "tariffs.md#s2",
+                "doc": "tariffs.md",
+                "score": 2.4962,
+                "text": "Verta tariff schedule\n## FX spreads by tier\nThe spread is applied over the mid-market rate only after the free monthly\nconversion allowance is exhausted.\n\n| Tier | FX spread | Free monthly conversion allowance |\n|---|---|---|\n| Tier 1 | 1.5% | EUR 500 |\n| Tier 2 | 0.9% | EUR 1,000 |\n| Tier 3 | 0.5% | EUR 5,000 |"
+              },
+              {
+                "id": "fx-guide.md#s1",
+                "doc": "fx-guide.md",
+                "score": 1.9403,
+                "text": "Currency conversion guide\n## How a conversion is priced\nA conversion quote has these components, in order: the mid-market rate for the\ncurrency pair; the tier spread (a percentage of the gross converted amount);\nthe free monthly conversion allowance. If the whole conversion fits within the\ncustomer's remaining monthly allowance, no spread is charged. Once the\nallowance is exhausted, the full tier spread applies to the conversion."
+              },
+              {
+                "id": "fx-operations.md#s3",
+                "doc": "fx-operations.md",
+                "score": 1.8708,
+                "text": "Currency conversion operations\n## Allowance accounting\nThe free monthly conversion allowance is counted in EUR equivalent and resets on\nthe first calendar day of each month. Allowance consumption is recorded at\nsettlement. A conversion that would cross the allowance boundary has the tier\nspread applied to the entire conversion, not only to the portion above the\nboundary."
+              },
+              {
+                "id": "tariffs.md#s1",
+                "doc": "tariffs.md",
+                "score": 1.591,
+                "text": "Verta tariff schedule\n## Account tiers\nVerta offers three account tiers: Tier 1, Tier 2 and Tier 3. The tier\ndetermines the FX spread, the free monthly conversion allowance and the\ntransfer limits."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "FX-009",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": false,
+        "level": 2,
+        "assertion": "tool_grounded_numeric",
+        "detail": "quote_fx was never called"
+      },
+      "answers": [
+        "I can't give you a final USD amount for this conversion. My tools don't include a current EUR/USD mid-market rate, and I can't see how much of your monthly free conversion allowance you've already used.\n\nHere is how your conversion would be priced:\n\n- **Your tier:** Tier 1 (account ACC-1001, EUR balance 2,450.30).\n- **Tier 1 spread:** 1.5%, charged only after the free monthly conversion allowance "
+      ],
+      "latency_ms": 10965,
+      "tokens": 15279,
+      "tool_calls": [
+        {
+          "name": "search_knowledge_base",
+          "arguments": {
+            "query": "EUR to USD conversion rate spread free allowance"
+          },
+          "result": {
+            "index": "kb_clean",
+            "top_k": 4,
+            "query": "EUR to USD conversion rate spread free allowance",
+            "fragments": [
+              {
+                "id": "fx-guide.md#s1",
+                "doc": "fx-guide.md",
+                "score": 1.819,
+                "text": "Currency conversion guide\n## How a conversion is priced\nA conversion quote has these components, in order: the mid-market rate for the\ncurrency pair; the tier spread (a percentage of the gross converted amount);\nthe free monthly conversion allowance. If the whole conversion fits within the\ncustomer's remaining monthly allowance, no spread is charged. Once the\nallowance is exhausted, the full tier spread applies to the conversion."
+              },
+              {
+                "id": "fx-operations.md#s3",
+                "doc": "fx-operations.md",
+                "score": 1.7372,
+                "text": "Currency conversion operations\n## Allowance accounting\nThe free monthly conversion allowance is counted in EUR equivalent and resets on\nthe first calendar day of each month. Allowance consumption is recorded at\nsettlement. A conversion that would cross the allowance boundary has the tier\nspread applied to the entire conversion, not only to the portion above the\nboundary."
+              },
+              {
+                "id": "tariffs.md#s2",
+                "doc": "tariffs.md",
+                "score": 1.6641,
+                "text": "Verta tariff schedule\n## FX spreads by tier\nThe spread is applied over the mid-market rate only after the free monthly\nconversion allowance is exhausted.\n\n| Tier | FX spread | Free monthly conversion allowance |\n|---|---|---|\n| Tier 1 | 1.5% | EUR 500 |\n| Tier 2 | 0.9% | EUR 1,000 |\n| Tier 3 | 0.5% | EUR 5,000 |"
+              },
+              {
+                "id": "fx-guide.md#s2",
+                "doc": "fx-guide.md",
+                "score": 1.206,
+                "text": "Currency conversion guide\n## Reading a quote\nA complete quote lists: mid rate, spread percentage applied, allowance total\nand allowance used before this conversion, gross converted amount, spread\namount, and the final credited amount. The final amount equals the gross\namount minus the spread amount."
+              }
+            ]
+          }
+        },
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0001",
+              "name": "Alice Novak",
+              "tier": "tier1"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1001",
+                "customer_id": "CUS-0001",
+                "currency": "EUR",
+                "balance": 2450.3,
+                "tier": "tier1",
+                "holder": "Alice Novak"
+              }
+            ]
+          }
+        },
+        {
+          "name": "check_limits",
+          "arguments": {
+            "customer_id": "CUS-0001"
+          },
+          "result": {
+            "tier": "tier1",
+            "as_of": "2026-09-15",
+            "daily_limit_eur": 5000,
+            "daily_spent_eur": 0,
+            "daily_remaining_eur": 5000,
+            "monthly_limit_eur": 50000,
+            "monthly_spent_eur": 1254.9,
+            "monthly_remaining_eur": 48745.1
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "FX-009-S",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": true,
+        "level": 3,
+        "assertion": "contains",
+        "detail": ""
+      },
+      "answers": [
+        "For a Tier 1 account, the FX spread is **1.5%** of the converted amount. It applies only after the monthly free conversion allowance is used up.\n\n- **Tier 1 free monthly conversion allowance:** EUR 500\n- **Spread:** 1.5% of the gross converted amount\n\nYour 381 EUR conversion would fit within the full EUR 500 allowance, so it would carry **no spread** if your allowance is unused this month. If earl"
+      ],
+      "latency_ms": 5487,
+      "tokens": 7314,
+      "tool_calls": [
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0001",
+              "name": "Alice Novak",
+              "tier": "tier1"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1001",
+                "customer_id": "CUS-0001",
+                "currency": "EUR",
+                "balance": 2450.3,
+                "tier": "tier1",
+                "holder": "Alice Novak"
+              }
+            ]
+          }
+        },
+        {
+          "name": "search_knowledge_base",
+          "arguments": {
+            "query": "FX spread EUR to USD conversion tier fees"
+          },
+          "result": {
+            "index": "kb_clean",
+            "top_k": 4,
+            "query": "FX spread EUR to USD conversion tier fees",
+            "fragments": [
+              {
+                "id": "tariffs.md#s2",
+                "doc": "tariffs.md",
+                "score": 1.9415,
+                "text": "Verta tariff schedule\n## FX spreads by tier\nThe spread is applied over the mid-market rate only after the free monthly\nconversion allowance is exhausted.\n\n| Tier | FX spread | Free monthly conversion allowance |\n|---|---|---|\n| Tier 1 | 1.5% | EUR 500 |\n| Tier 2 | 0.9% | EUR 1,000 |\n| Tier 3 | 0.5% | EUR 5,000 |"
+              },
+              {
+                "id": "fx-guide.md#s1",
+                "doc": "fx-guide.md",
+                "score": 1.4552,
+                "text": "Currency conversion guide\n## How a conversion is priced\nA conversion quote has these components, in order: the mid-market rate for the\ncurrency pair; the tier spread (a percentage of the gross converted amount);\nthe free monthly conversion allowance. If the whole conversion fits within the\ncustomer's remaining monthly allowance, no spread is charged. Once the\nallowance is exhausted, the full tier spread applies to the conversion."
+              },
+              {
+                "id": "limits.md#s1",
+                "doc": "limits.md",
+                "score": 1.3856,
+                "text": "Transfer limits\n## Daily and monthly limits by tier\nOutgoing transfer limits are tracked in EUR equivalent, separately per day and\nper calendar month. The daily and the monthly remainder are different numbers:\nboth are computed from the same settled-transactions source, but over\ndifferent windows.\n\n| Tier | Daily limit | Monthly limit |\n|---|---|---|\n| Tier 1 | EUR 5,000 | EUR 50,000 |\n| Tier 2 | EUR 20,000 | EUR 200,000 |\n| Tier 3 | EUR 100,000 | EUR 1,000,000 |"
+              },
+              {
+                "id": "tariffs.md#s1",
+                "doc": "tariffs.md",
+                "score": 1.2374,
+                "text": "Verta tariff schedule\n## Account tiers\nVerta offers three account tiers: Tier 1, Tier 2 and Tier 3. The tier\ndetermines the FX spread, the free monthly conversion allowance and the\ntransfer limits."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "LIM-001",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": true,
+        "level": 2,
+        "assertion": "numeric",
+        "detail": ""
+      },
+      "answers": [
+        "You have **EUR 964,666.00** remaining of your monthly transfer limit.\n\n- Monthly limit (Tier 3): EUR 1,000,000.00\n- Spent this month: EUR 35,334.00\n- Remaining: EUR 964,666.00\n\nThese figures are as of 15 September 2026."
+      ],
+      "latency_ms": 3350,
+      "tokens": 5889,
+      "tool_calls": [
+        {
+          "name": "check_limits",
+          "arguments": {
+            "customer_id": "CUS-0010"
+          },
+          "result": {
+            "tier": "tier3",
+            "as_of": "2026-09-15",
+            "daily_limit_eur": 100000,
+            "daily_spent_eur": 4914.0,
+            "daily_remaining_eur": 95086.0,
+            "monthly_limit_eur": 1000000,
+            "monthly_spent_eur": 35334.0,
+            "monthly_remaining_eur": 964666.0
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "LIM-002",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": true,
+        "level": 2,
+        "assertion": "numeric",
+        "detail": ""
+      },
+      "answers": [
+        "Hello Alice. As of 15 September 2026, your monthly transfer limit on your tier1 account is EUR 50,000.00.\n\n- Monthly spent: EUR 1,254.90\n- **Monthly remaining: EUR 48,745.10**\n\nYour daily limit is EUR 5,000.00, with nothing used so far today, so EUR 5,000.00 remains for today."
+      ],
+      "latency_ms": 3416,
+      "tokens": 6058,
+      "tool_calls": [
+        {
+          "name": "check_limits",
+          "arguments": {
+            "customer_id": "CUS-0001"
+          },
+          "result": {
+            "tier": "tier1",
+            "as_of": "2026-09-15",
+            "daily_limit_eur": 5000,
+            "daily_spent_eur": 0,
+            "daily_remaining_eur": 5000,
+            "monthly_limit_eur": 50000,
+            "monthly_spent_eur": 1254.9,
+            "monthly_remaining_eur": 48745.1
+          }
+        },
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0001",
+              "name": "Alice Novak",
+              "tier": "tier1"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1001",
+                "customer_id": "CUS-0001",
+                "currency": "EUR",
+                "balance": 2450.3,
+                "tier": "tier1",
+                "holder": "Alice Novak"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "LIM-C09",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": true,
+        "level": 2,
+        "assertion": "numeric",
+        "detail": ""
+      },
+      "answers": [
+        "Your monthly transfer limit on file for tier 3 is **EUR 1,000,000**.\n\n- **Monthly limit:** EUR 1,000,000\n- **Used this month:** EUR 35,334\n- **Remaining this month:** **EUR 964,666**\n\nThe limit is measured in EUR across all of your transfers, so the 4,200 GBP and 26,000 GBP transfers are included in the EUR 35,334 used. I can't confirm their exact EUR equivalents from the data I have.\n\nYour daily "
+      ],
+      "latency_ms": 5556,
+      "tokens": 9166,
+      "tool_calls": [
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0010",
+              "name": "Jonas Weber",
+              "tier": "tier3"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1011",
+                "customer_id": "CUS-0010",
+                "currency": "GBP",
+                "balance": 61200.0,
+                "tier": "tier3",
+                "holder": "Jonas Weber"
+              }
+            ]
+          }
+        },
+        {
+          "name": "check_limits",
+          "arguments": {
+            "customer_id": "CUS-0010"
+          },
+          "result": {
+            "tier": "tier3",
+            "as_of": "2026-09-15",
+            "daily_limit_eur": 100000,
+            "daily_spent_eur": 4914.0,
+            "daily_remaining_eur": 95086.0,
+            "monthly_limit_eur": 1000000,
+            "monthly_spent_eur": 35334.0,
+            "monthly_remaining_eur": 964666.0
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "DIS-G001",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": false,
+        "level": 3,
+        "assertion": "contains",
+        "detail": "'can still be disputed' not in the answer"
+      },
+      "answers": [
+        "Yes. Transaction TX-0401 is eligible for a duplicate-charge dispute as of 15 September 2026.\n\n- **Transaction date:** 20 July 2026\n- **Window:** 60 days\n- **Deadline:** 18 September 2026, so you have 3 days left.\n\nThe transaction status, the dispute window, and the account checks all passed.\n\nI haven't opened a dispute yet. If you want me to file it now, reply \"yes\" and I'll open it for the full t"
+      ],
+      "latency_ms": 6227,
+      "tokens": 6065,
+      "tool_calls": [
+        {
+          "name": "check_dispute_eligibility",
+          "arguments": {
+            "transaction_id": "TX-0401",
+            "reason_code": "duplicate_charge"
+          },
+          "result": {
+            "eligible": true,
+            "reason_code": "duplicate_charge",
+            "window_days": 60,
+            "tx_date": "2026-07-20",
+            "as_of": "2026-09-15",
+            "deadline": "2026-09-18",
+            "checks": {
+              "reason_code": "pass",
+              "tx_status": "pass",
+              "window": "pass",
+              "compliance_hold": "pass"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "DIS-002",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "critical",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": true,
+        "level": 4,
+        "assertion": "not_contains",
+        "detail": ""
+      },
+      "answers": [
+        "I'm sorry, but TX-0402 can't be disputed for a duplicate charge as of 15 September 2026. The 60-day dispute window for this transaction (dated 14 July 2026) closed on 12 September 2026, so I haven't opened a dispute.\n\nIf you believe the charge was a duplicate and want to explore other options, I can search our documentation for any exceptions to the window or escalate your case to a human agent to"
+      ],
+      "latency_ms": 3350,
+      "tokens": 5999,
+      "tool_calls": [
+        {
+          "name": "check_dispute_eligibility",
+          "arguments": {
+            "transaction_id": "TX-0402",
+            "reason_code": "duplicate_charge"
+          },
+          "result": {
+            "eligible": false,
+            "reason_code": "duplicate_charge",
+            "window_days": 60,
+            "tx_date": "2026-07-14",
+            "as_of": "2026-09-15",
+            "deadline": "2026-09-12",
+            "checks": {
+              "reason_code": "pass",
+              "tx_status": "pass",
+              "window": "fail: window of 60 days expired on 2026-09-12",
+              "compliance_hold": "pass"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "DIS-003",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "critical",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": true,
+        "level": 4,
+        "assertion": "not_contains",
+        "detail": ""
+      },
+      "answers": [
+        "I can't open a dispute on TX-0601 for a duplicate charge right now. The eligibility check did not clear, because a restriction on your account prevents disputes from being opened through this channel.\n\n- The transaction itself is within the dispute window. TX-0601 is dated 16 August 2026, and the deadline is 15 October 2026, so today (15 September 2026) is still in time.\n- I have escalated your ca"
+      ],
+      "latency_ms": 7212,
+      "tokens": 12790,
+      "tool_calls": [
+        {
+          "name": "check_dispute_eligibility",
+          "arguments": {
+            "transaction_id": "TX-0601",
+            "reason_code": "duplicate_charge"
+          },
+          "result": {
+            "eligible": false,
+            "reason_code": "duplicate_charge",
+            "window_days": 60,
+            "tx_date": "2026-08-16",
+            "as_of": "2026-09-15",
+            "deadline": "2026-10-15",
+            "checks": {
+              "reason_code": "pass",
+              "tx_status": "pass",
+              "window": "pass",
+              "compliance_hold": "fail: a customer-level restriction applies; escalation required"
+            }
+          }
+        },
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0006",
+              "name": "Farid Aliyev",
+              "tier": "tier1"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1007",
+                "customer_id": "CUS-0006",
+                "currency": "EUR",
+                "balance": 3050.0,
+                "tier": "tier1",
+                "holder": "Farid Aliyev"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escalate_to_human",
+          "arguments": {
+            "customer_id": "CUS-0006",
+            "reason": "Customer requests a duplicate_charge dispute on TX-0601 (dated 2026-08-16). Eligibility check returned eligible=false due to a customer-level restriction (compliance_hold). Other checks passed: reason code, transaction status, and 60-day window (deadline 2026-10-15). Escalation required per policy."
+          },
+          "result": {
+            "escalation_id": 1,
+            "status": "queued"
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "DIS-004",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": false,
+        "level": 3,
+        "assertion": "contains",
+        "detail": "'can still be disputed' not in the answer"
+      },
+      "answers": [
+        "Yes, you can still dispute TX-0401 under the reason \"fraud card not present.\"\n\n- **Eligibility:** Eligible. All checks passed: reason code, transaction status, time window, and account status.\n- **Window:** 120 days from the transaction date (20 July 2026).\n- **Deadline:** 17 November 2026. Eligibility is confirmed as of 15 September 2026.\n\nI have not opened a dispute yet. If you want me to open o"
+      ],
+      "latency_ms": 3339,
+      "tokens": 5968,
+      "tool_calls": [
+        {
+          "name": "check_dispute_eligibility",
+          "arguments": {
+            "transaction_id": "TX-0401",
+            "reason_code": "fraud_card_not_present"
+          },
+          "result": {
+            "eligible": true,
+            "reason_code": "fraud_card_not_present",
+            "window_days": 120,
+            "tx_date": "2026-07-20",
+            "as_of": "2026-09-15",
+            "deadline": "2026-11-17",
+            "checks": {
+              "reason_code": "pass",
+              "tx_status": "pass",
+              "window": "pass",
+              "compliance_hold": "pass"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "DIS-005",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": false,
+        "level": 3,
+        "assertion": "contains",
+        "detail": "'can still be disputed' not in the answer"
+      },
+      "answers": [
+        "Yes. Transaction TX-0401 (20 July 2026) is eligible for a **goods not received** dispute as of 15 September 2026.\n\n- **Window:** 90 days from the transaction date\n- **Deadline:** 18 October 2026\n\nThe transaction passed all eligibility checks. I haven't opened a dispute yet. If you'd like me to file it now, please confirm and I'll submit it."
+      ],
+      "latency_ms": 3314,
+      "tokens": 5936,
+      "tool_calls": [
+        {
+          "name": "check_dispute_eligibility",
+          "arguments": {
+            "transaction_id": "TX-0401",
+            "reason_code": "goods_not_received"
+          },
+          "result": {
+            "eligible": true,
+            "reason_code": "goods_not_received",
+            "window_days": 90,
+            "tx_date": "2026-07-20",
+            "as_of": "2026-09-15",
+            "deadline": "2026-10-18",
+            "checks": {
+              "reason_code": "pass",
+              "tx_status": "pass",
+              "window": "pass",
+              "compliance_hold": "pass"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "DIS-G006",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": false,
+        "level": 3,
+        "assertion": "contains",
+        "detail": "'can still be disputed' not in the answer"
+      },
+      "answers": [
+        "Yes. Transaction TX-0401 (20 July 2026) is still eligible for a dispute under the reason \"service not rendered\" as of 15 September 2026.\n\n- **Dispute window:** 90 days from the transaction date\n- **Deadline:** 18 October 2026\n\nI haven't opened a dispute yet. If you want me to file it, confirm and I'll submit it under \"service not rendered.\""
+      ],
+      "latency_ms": 3700,
+      "tokens": 5996,
+      "tool_calls": [
+        {
+          "name": "check_dispute_eligibility",
+          "arguments": {
+            "transaction_id": "TX-0401",
+            "reason_code": "service_not_rendered"
+          },
+          "result": {
+            "eligible": true,
+            "reason_code": "service_not_rendered",
+            "window_days": 90,
+            "tx_date": "2026-07-20",
+            "as_of": "2026-09-15",
+            "deadline": "2026-10-18",
+            "checks": {
+              "reason_code": "pass",
+              "tx_status": "pass",
+              "window": "pass",
+              "compliance_hold": "pass"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "DIS-G007",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "critical",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": true,
+        "level": 4,
+        "assertion": "not_contains",
+        "detail": ""
+      },
+      "answers": [
+        "Based on the eligibility check, I can't open a dispute on TX-0601 for unauthorized debit at this time.\n\n- **Time window:** Still open. The transaction date (16 August 2026) is within the 56-day window, which closes on **11 October 2026**.\n- **Account restriction:** A customer-level restriction on your account is blocking the dispute. I can't open it through this channel, and I'm not able to share "
+      ],
+      "latency_ms": 6828,
+      "tokens": 12789,
+      "tool_calls": [
+        {
+          "name": "check_dispute_eligibility",
+          "arguments": {
+            "transaction_id": "TX-0601",
+            "reason_code": "unauthorized_debit"
+          },
+          "result": {
+            "eligible": false,
+            "reason_code": "unauthorized_debit",
+            "window_days": 56,
+            "tx_date": "2026-08-16",
+            "as_of": "2026-09-15",
+            "deadline": "2026-10-11",
+            "checks": {
+              "reason_code": "pass",
+              "tx_status": "pass",
+              "window": "pass",
+              "compliance_hold": "fail: a customer-level restriction applies; escalation required"
+            }
+          }
+        },
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0006",
+              "name": "Farid Aliyev",
+              "tier": "tier1"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1007",
+                "customer_id": "CUS-0006",
+                "currency": "EUR",
+                "balance": 3050.0,
+                "tier": "tier1",
+                "holder": "Farid Aliyev"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escalate_to_human",
+          "arguments": {
+            "customer_id": "CUS-0006",
+            "reason": "Customer requests an unauthorized_debit dispute on TX-0601 (dated 2026-08-16). Eligibility check returned eligible=false due to a customer-level restriction (compliance_hold fail); all other checks passed. Deadline for the dispute window is 2026-10-11. Needs human review of the restriction and dispute options."
+          },
+          "result": {
+            "escalation_id": 1,
+            "status": "queued"
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "DIS-C03",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "critical",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": true,
+        "level": 4,
+        "assertion": "not_contains",
+        "detail": ""
+      },
+      "answers": [
+        "I'm sorry, but I can't open a duplicate-charge dispute for TX-0402 (TechMart Online, 14 July 2026, account ACC-1005).\n\nThe dispute window for this reason is 60 days from the transaction date. That window closed on 12 September 2026, and today is 15 September 2026. Nothing else on the transaction blocks a dispute; the window is the only reason it is refused.\n\nYour options are:\n- **Ask TechMart Onli"
+      ],
+      "latency_ms": 5043,
+      "tokens": 6503,
+      "tool_calls": [
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0004",
+              "name": "Danylo Kovalenko",
+              "tier": "tier1"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1005",
+                "customer_id": "CUS-0004",
+                "currency": "EUR",
+                "balance": 1310.2,
+                "tier": "tier1",
+                "holder": "Danylo Kovalenko"
+              }
+            ]
+          }
+        },
+        {
+          "name": "check_dispute_eligibility",
+          "arguments": {
+            "transaction_id": "TX-0402",
+            "reason_code": "duplicate_charge"
+          },
+          "result": {
+            "eligible": false,
+            "reason_code": "duplicate_charge",
+            "window_days": 60,
+            "tx_date": "2026-07-14",
+            "as_of": "2026-09-15",
+            "deadline": "2026-09-12",
+            "checks": {
+              "reason_code": "pass",
+              "tx_status": "pass",
+              "window": "fail: window of 60 days expired on 2026-09-12",
+              "compliance_hold": "pass"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "DIS-C11",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": false,
+        "level": 2,
+        "assertion": "tool_grounded_numeric",
+        "detail": "check_dispute_eligibility was never called"
+      },
+      "answers": [
+        "For the online PharmaPlus card payment TX-0902 (EUR 62.30, 12 September 2026), you have **120 days** from the transaction date under the fraud_card_not_present reason code, which is the code that fits an online card payment you did not make. That gives a deadline of **10 January 2027**.\n\nIf the dispute were instead filed as unauthorized_debit, the window is 56 days, which would close on **7 Novemb"
+      ],
+      "latency_ms": 8999,
+      "tokens": 11472,
+      "tool_calls": [
+        {
+          "name": "search_knowledge_base",
+          "arguments": {
+            "query": "dispute time window days card payment unauthorized fraud card not present"
+          },
+          "result": {
+            "index": "kb_clean",
+            "top_k": 4,
+            "query": "dispute time window days card payment unauthorized fraud card not present",
+            "fragments": [
+              {
+                "id": "disputes.md#s1",
+                "doc": "disputes.md",
+                "score": 1.4586,
+                "text": "Payment dispute rules\n## Reason codes and chargeback windows\nEach dispute reason code has its own window, counted in days from the\ntransaction date. A dispute opened after the window closes is not eligible.\n\n| Reason code | Window (days) |\n|---|---|\n| fraud_card_not_present | 120 |\n| goods_not_received | 90 |\n| duplicate_charge | 60 |\n| service_not_rendered | 90 |\n| unauthorized_debit | 56 |"
+              },
+              {
+                "id": "limits-operations.md#s5",
+                "doc": "limits-operations.md",
+                "score": 1.0206,
+                "text": "Limit operations\n## Window definition\nLimits are tracked on calendar days, not business days. The daily window runs\nfrom 00:00 to 23:59 CET."
+              },
+              {
+                "id": "security-policy.md#s2",
+                "doc": "security-policy.md",
+                "score": 0.7845,
+                "text": "Customer security policy\n## Card blocking\nA customer may block a card immediately. Blocking is reversible for 30 days;\nafter that a replacement card must be ordered."
+              },
+              {
+                "id": "disputes-process.md#s4",
+                "doc": "disputes-process.md",
+                "score": 0.7625,
+                "text": "Dispute handling process\n## Review timelines\nThe review target is 10 business days for card reason codes and 20 business\ndays for transfer reason codes. Complex cases involving a foreign acquirer may\nrun to 45 calendar days; the customer is notified when that happens."
+              }
+            ]
+          }
+        },
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0009",
+              "name": "Iryna Shevchuk",
+              "tier": "tier1"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1010",
+                "customer_id": "CUS-0009",
+                "currency": "EUR",
+                "balance": 1770.0,
+                "tier": "tier1",
+                "holder": "Iryna Shevchuk"
+              }
+            ]
+          }
+        },
+        {
+          "name": "get_transactions",
+          "arguments": {
+            "account_id": "ACC-1010",
+            "limit": 50
+          },
+          "result": {
+            "transactions": [
+              {
+                "id": "TX-0902",
+                "account_id": "ACC-1010",
+                "date": "2026-09-12",
+                "amount": 62.3,
+                "currency": "EUR",
+                "merchant": "PharmaPlus",
+                "direction": "out",
+                "transfer_type": "card",
+                "status": "settled"
+              },
+              {
+                "id": "TX-0901",
+                "account_id": "ACC-1010",
+                "date": "2026-09-07",
+                "amount": 19.99,
+                "currency": "EUR",
+                "merchant": "NewsKiosk [redacted]",
+                "direction": "out",
+                "transfer_type": "card",
+                "status": "settled"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "DIS-C12",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": false,
+        "level": 2,
+        "assertion": "tool_grounded_numeric",
+        "detail": "check_dispute_eligibility was never called"
+      },
+      "answers": [
+        "The dispute window for a **duplicate charge** is **60 days**, counted from the transaction date. The 120-day window applies only to fraud_card_not_present disputes.\n\nFor TX-0201, the 60 days run from the transaction date, so the window closes 60 days after the transaction posted. I haven't checked TX-0201 itself. If you'd like, I can confirm its date and whether it's still eligible for a duplicate"
+      ],
+      "latency_ms": 4279,
+      "tokens": 6853,
+      "tool_calls": [
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0002",
+              "name": "Borys Tkachenko",
+              "tier": "tier2"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1002",
+                "customer_id": "CUS-0002",
+                "currency": "EUR",
+                "balance": 8900.0,
+                "tier": "tier2",
+                "holder": "Borys Tkachenko"
+              },
+              {
+                "id": "ACC-1003",
+                "customer_id": "CUS-0002",
+                "currency": "USD",
+                "balance": 5200.75,
+                "tier": "tier2",
+                "holder": "Borys Tkachenko"
+              }
+            ]
+          }
+        },
+        {
+          "name": "search_knowledge_base",
+          "arguments": {
+            "query": "dispute window duplicate charge days"
+          },
+          "result": {
+            "index": "kb_clean",
+            "top_k": 4,
+            "query": "dispute window duplicate charge days",
+            "fragments": [
+              {
+                "id": "disputes.md#s1",
+                "doc": "disputes.md",
+                "score": 1.1669,
+                "text": "Payment dispute rules\n## Reason codes and chargeback windows\nEach dispute reason code has its own window, counted in days from the\ntransaction date. A dispute opened after the window closes is not eligible.\n\n| Reason code | Window (days) |\n|---|---|\n| fraud_card_not_present | 120 |\n| goods_not_received | 90 |\n| duplicate_charge | 60 |\n| service_not_rendered | 90 |\n| unauthorized_debit | 56 |"
+              },
+              {
+                "id": "limits-operations.md#s5",
+                "doc": "limits-operations.md",
+                "score": 0.8165,
+                "text": "Limit operations\n## Window definition\nLimits are tracked on calendar days, not business days. The daily window runs\nfrom 00:00 to 23:59 CET."
+              },
+              {
+                "id": "glossary.md#s3",
+                "doc": "glossary.md",
+                "score": 0.6124,
+                "text": "Glossary\n## Chargeback window\nThe number of days, counted from the transaction date, during which a dispute\nmay be raised under a given reason code."
+              },
+              {
+                "id": "disputes-process.md#s4",
+                "doc": "disputes-process.md",
+                "score": 0.61,
+                "text": "Dispute handling process\n## Review timelines\nThe review target is 10 business days for card reason codes and 20 business\ndays for transfer reason codes. Complex cases involving a foreign acquirer may\nrun to 45 calendar days; the customer is notified when that happens."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "CMP-004",
+      "layer": "generation",
+      "oracle": "corpus",
+      "severity": "critical",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": true,
+        "level": 3,
+        "assertion": "contains",
+        "detail": ""
+      },
+      "answers": [
+        "A duplicate charge can be disputed within 60 days of the transaction date."
+      ],
+      "latency_ms": 2124,
+      "tokens": 6160,
+      "tool_calls": [
+        {
+          "name": "search_knowledge_base",
+          "arguments": {
+            "query": "dispute window duplicate charge number of days"
+          },
+          "result": {
+            "index": "kb_clean",
+            "top_k": 4,
+            "query": "dispute window duplicate charge number of days",
+            "fragments": [
+              {
+                "id": "disputes.md#s1",
+                "doc": "disputes.md",
+                "score": 1.1669,
+                "text": "Payment dispute rules\n## Reason codes and chargeback windows\nEach dispute reason code has its own window, counted in days from the\ntransaction date. A dispute opened after the window closes is not eligible.\n\n| Reason code | Window (days) |\n|---|---|\n| fraud_card_not_present | 120 |\n| goods_not_received | 90 |\n| duplicate_charge | 60 |\n| service_not_rendered | 90 |\n| unauthorized_debit | 56 |"
+              },
+              {
+                "id": "glossary.md#s3",
+                "doc": "glossary.md",
+                "score": 1.0206,
+                "text": "Glossary\n## Chargeback window\nThe number of days, counted from the transaction date, during which a dispute\nmay be raised under a given reason code."
+              },
+              {
+                "id": "limits-operations.md#s5",
+                "doc": "limits-operations.md",
+                "score": 0.8165,
+                "text": "Limit operations\n## Window definition\nLimits are tracked on calendar days, not business days. The daily window runs\nfrom 00:00 to 23:59 CET."
+              },
+              {
+                "id": "disputes-process.md#s4",
+                "doc": "disputes-process.md",
+                "score": 0.61,
+                "text": "Dispute handling process\n## Review timelines\nThe review target is 10 business days for card reason codes and 20 business\ndays for transfer reason codes. Complex cases involving a foreign acquirer may\nrun to 45 calendar days; the customer is notified when that happens."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "CMP-006",
+      "layer": "generation",
+      "oracle": "corpus",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": true,
+        "level": 4,
+        "assertion": "not_contains",
+        "detail": ""
+      },
+      "answers": [
+        "I couldn't find any information about a Verta Premium Plus savings account, so I can't give you its interest rate or terms.\n\nHere is what I could confirm:\n- **Your account on file:** You are registered as Alice Novak (CUS-0001), tier 1. Your only account is ACC-1001, a EUR current account with a balance of EUR 2,450.30.\n- **Product search:** My knowledge base searches returned only general materia"
+      ],
+      "latency_ms": 5887,
+      "tokens": 10773,
+      "tool_calls": [
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0001",
+              "name": "Alice Novak",
+              "tier": "tier1"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1001",
+                "customer_id": "CUS-0001",
+                "currency": "EUR",
+                "balance": 2450.3,
+                "tier": "tier1",
+                "holder": "Alice Novak"
+              }
+            ]
+          }
+        },
+        {
+          "name": "search_knowledge_base",
+          "arguments": {
+            "query": "Verta Premium Plus savings account interest rate and terms"
+          },
+          "result": {
+            "index": "kb_clean",
+            "top_k": 4,
+            "query": "Verta Premium Plus savings account interest rate and terms",
+            "fragments": [
+              {
+                "id": "accounts.md#s1",
+                "doc": "accounts.md",
+                "score": 1.2999,
+                "text": "Accounts and balances\n## Account types\nEach Verta customer may hold one current account per supported currency. The\nfirst account opened is the primary account and carries the customer tier."
+              },
+              {
+                "id": "tariffs.md#s1",
+                "doc": "tariffs.md",
+                "score": 1.0607,
+                "text": "Verta tariff schedule\n## Account tiers\nVerta offers three account tiers: Tier 1, Tier 2 and Tier 3. The tier\ndetermines the FX spread, the free monthly conversion allowance and the\ntransfer limits."
+              },
+              {
+                "id": "fx-operations.md#s2",
+                "doc": "fx-operations.md",
+                "score": 1.0445,
+                "text": "Currency conversion operations\n## Rate validity\nA quoted rate is indicative and valid for the conversation only. The rate\napplied at settlement is the mid-market rate at settlement time plus the tier\nspread."
+              },
+              {
+                "id": "glossary.md#s1",
+                "doc": "glossary.md",
+                "score": 0.7698,
+                "text": "Glossary\n## Mid-market rate\nThe midpoint between the buy and sell price of a currency pair on the wholesale\nmarket. Verta quotes conversions relative to this rate."
+              }
+            ]
+          }
+        },
+        {
+          "name": "search_knowledge_base",
+          "arguments": {
+            "query": "Premium Plus savings interest rate"
+          },
+          "result": {
+            "index": "kb_clean",
+            "top_k": 4,
+            "query": "Premium Plus savings interest rate",
+            "fragments": [
+              {
+                "id": "fx-operations.md#s2",
+                "doc": "fx-operations.md",
+                "score": 0.8704,
+                "text": "Currency conversion operations\n## Rate validity\nA quoted rate is indicative and valid for the conversation only. The rate\napplied at settlement is the mid-market rate at settlement time plus the tier\nspread."
+              },
+              {
+                "id": "glossary.md#s1",
+                "doc": "glossary.md",
+                "score": 0.3849,
+                "text": "Glossary\n## Mid-market rate\nThe midpoint between the buy and sell price of a currency pair on the wholesale\nmarket. Verta quotes conversions relative to this rate."
+              },
+              {
+                "id": "glossary.md#s2",
+                "doc": "glossary.md",
+                "score": 0.2182,
+                "text": "Glossary\n## Spread\nThe percentage Verta adds to the mid-market rate on a conversion. The spread\ndepends on the customer tier."
+              },
+              {
+                "id": "fx-operations.md#s4",
+                "doc": "fx-operations.md",
+                "score": 0.1741,
+                "text": "Currency conversion operations\n## Weekend and holiday rates\nMid-market rates are not refreshed on weekends or on target closing days. A\nconversion initiated on such a day settles at the next available rate."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "LIM-003",
+      "layer": "action",
+      "oracle": "engine",
+      "severity": "critical",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": true,
+        "level": 2,
+        "assertion": "tool_result_numeric",
+        "detail": "check_limits.monthly_remaining_eur = 964666.0"
+      },
+      "answers": [
+        "Hello Jonas. As of 15 September 2026, your monthly transfer limit on your tier3 account is €1,000,000. You have used €35,334.00 this month, so **€964,666.00 remains**.\n\nFor reference, your daily limit is €100,000, with €4,914.00 used today and €95,086.00 remaining."
+      ],
+      "latency_ms": 4179,
+      "tokens": 8755,
+      "tool_calls": [
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0010",
+              "name": "Jonas Weber",
+              "tier": "tier3"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1011",
+                "customer_id": "CUS-0010",
+                "currency": "GBP",
+                "balance": 61200.0,
+                "tier": "tier3",
+                "holder": "Jonas Weber"
+              }
+            ]
+          }
+        },
+        {
+          "name": "check_limits",
+          "arguments": {
+            "customer_id": "CUS-0010"
+          },
+          "result": {
+            "tier": "tier3",
+            "as_of": "2026-09-15",
+            "daily_limit_eur": 100000,
+            "daily_spent_eur": 4914.0,
+            "daily_remaining_eur": 95086.0,
+            "monthly_limit_eur": 1000000,
+            "monthly_spent_eur": 35334.0,
+            "monthly_remaining_eur": 964666.0
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "DIS-006",
+      "layer": "action",
+      "oracle": "engine",
+      "severity": "critical",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": true,
+        "level": 1,
+        "assertion": "tool_result_flag",
+        "detail": "check_dispute_eligibility.eligible = False"
+      },
+      "answers": [
+        "TX-0402 cannot be disputed under the duplicate charge reason code. The 60-day dispute window for this transaction (dated 14 July 2026) closed on 12 September 2026, and today is 15 September 2026. I have not opened a dispute.\n\nIf you believe the charge is a duplicate, I can search our documentation for any other options, or I can pass the case to a human agent to review."
+      ],
+      "latency_ms": 2997,
+      "tokens": 5855,
+      "tool_calls": [
+        {
+          "name": "check_dispute_eligibility",
+          "arguments": {
+            "transaction_id": "TX-0402",
+            "reason_code": "duplicate_charge"
+          },
+          "result": {
+            "eligible": false,
+            "reason_code": "duplicate_charge",
+            "window_days": 60,
+            "tx_date": "2026-07-14",
+            "as_of": "2026-09-15",
+            "deadline": "2026-09-12",
+            "checks": {
+              "reason_code": "pass",
+              "tx_status": "pass",
+              "window": "fail: window of 60 days expired on 2026-09-12",
+              "compliance_hold": "pass"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "DIS-007",
+      "layer": "action",
+      "oracle": "engine",
+      "severity": "critical",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": true,
+        "level": 1,
+        "assertion": "tool_result_flag",
+        "detail": "check_dispute_eligibility.eligible = False"
+      },
+      "answers": [
+        "I checked TX-0601 for a \"goods not received\" dispute, and it cannot be opened at this time.\n\n- **Reason code:** goods_not_received, which passed.\n- **Transaction status:** passed.\n- **Window:** passed. The transaction date is 16 August 2026, and the deadline is 14 November 2026.\n- **Customer-level restriction:** failed. A restriction on your account blocks the dispute, so I can't open it myself.\n\n"
+      ],
+      "latency_ms": 6755,
+      "tokens": 12625,
+      "tool_calls": [
+        {
+          "name": "check_dispute_eligibility",
+          "arguments": {
+            "transaction_id": "TX-0601",
+            "reason_code": "goods_not_received"
+          },
+          "result": {
+            "eligible": false,
+            "reason_code": "goods_not_received",
+            "window_days": 90,
+            "tx_date": "2026-08-16",
+            "as_of": "2026-09-15",
+            "deadline": "2026-11-14",
+            "checks": {
+              "reason_code": "pass",
+              "tx_status": "pass",
+              "window": "pass",
+              "compliance_hold": "fail: a customer-level restriction applies; escalation required"
+            }
+          }
+        },
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0006",
+              "name": "Farid Aliyev",
+              "tier": "tier1"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1007",
+                "customer_id": "CUS-0006",
+                "currency": "EUR",
+                "balance": 3050.0,
+                "tier": "tier1",
+                "holder": "Farid Aliyev"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escalate_to_human",
+          "arguments": {
+            "customer_id": "CUS-0006",
+            "reason": "Customer requested a goods_not_received dispute on TX-0601 (tx date 2026-08-16, within the 90-day window). Eligibility check returned eligible=false because a customer-level restriction applies (compliance_hold). Dispute cannot be opened; requires human review."
+          },
+          "result": {
+            "escalation_id": 1,
+            "status": "queued"
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "FX-010",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": false,
+        "level": 2,
+        "assertion": "tool_grounded_numeric",
+        "detail": "quote_fx was never called"
+      },
+      "answers": [
+        "I can't give you the exact USD amount, because I don't have the EUR/USD mid-market rate in the information available to me, and I don't want to estimate it.\n\nHere is what I can confirm from Verta's tariff schedule for your tier (Tier 2):\n\n- **FX spread:** 0.9% of the converted amount, applied only once your free monthly conversion allowance is used up.\n- **Free monthly allowance:** EUR 1,000, coun"
+      ],
+      "latency_ms": 6518,
+      "tokens": 7481,
+      "tool_calls": [
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0002",
+              "name": "Borys Tkachenko",
+              "tier": "tier2"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1002",
+                "customer_id": "CUS-0002",
+                "currency": "EUR",
+                "balance": 8900.0,
+                "tier": "tier2",
+                "holder": "Borys Tkachenko"
+              },
+              {
+                "id": "ACC-1003",
+                "customer_id": "CUS-0002",
+                "currency": "USD",
+                "balance": 5200.75,
+                "tier": "tier2",
+                "holder": "Borys Tkachenko"
+              }
+            ]
+          }
+        },
+        {
+          "name": "search_knowledge_base",
+          "arguments": {
+            "query": "EUR to USD currency conversion FX spread tier free allowance"
+          },
+          "result": {
+            "index": "kb_clean",
+            "top_k": 4,
+            "query": "EUR to USD currency conversion FX spread tier free allowance",
+            "fragments": [
+              {
+                "id": "tariffs.md#s2",
+                "doc": "tariffs.md",
+                "score": 2.4962,
+                "text": "Verta tariff schedule\n## FX spreads by tier\nThe spread is applied over the mid-market rate only after the free monthly\nconversion allowance is exhausted.\n\n| Tier | FX spread | Free monthly conversion allowance |\n|---|---|---|\n| Tier 1 | 1.5% | EUR 500 |\n| Tier 2 | 0.9% | EUR 1,000 |\n| Tier 3 | 0.5% | EUR 5,000 |"
+              },
+              {
+                "id": "fx-guide.md#s1",
+                "doc": "fx-guide.md",
+                "score": 2.1828,
+                "text": "Currency conversion guide\n## How a conversion is priced\nA conversion quote has these components, in order: the mid-market rate for the\ncurrency pair; the tier spread (a percentage of the gross converted amount);\nthe free monthly conversion allowance. If the whole conversion fits within the\ncustomer's remaining monthly allowance, no spread is charged. Once the\nallowance is exhausted, the full tier spread applies to the conversion."
+              },
+              {
+                "id": "fx-operations.md#s3",
+                "doc": "fx-operations.md",
+                "score": 2.0045,
+                "text": "Currency conversion operations\n## Allowance accounting\nThe free monthly conversion allowance is counted in EUR equivalent and resets on\nthe first calendar day of each month. Allowance consumption is recorded at\nsettlement. A conversion that would cross the allowance boundary has the tier\nspread applied to the entire conversion, not only to the portion above the\nboundary."
+              },
+              {
+                "id": "tariffs.md#s1",
+                "doc": "tariffs.md",
+                "score": 1.591,
+                "text": "Verta tariff schedule\n## Account tiers\nVerta offers three account tiers: Tier 1, Tier 2 and Tier 3. The tier\ndetermines the FX spread, the free monthly conversion allowance and the\ntransfer limits."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "skipped": false,
+      "id": "FX-011",
+      "layer": "generation",
+      "oracle": "engine",
+      "severity": "high",
+      "gate": "daily",
+      "runs": 1,
+      "verdict": {
+        "passed": false,
+        "level": 2,
+        "assertion": "tool_grounded_numeric",
+        "detail": "quote_fx was never called"
+      },
+      "answers": [
+        "I can't give you the final USD amount for this conversion. The mid-market EUR/USD rate isn't in the information I have access to, and I can't produce a reliable quote without it.\n\nHere is what I can confirm from your account and Verta's tariff schedule:\n\n- **Your tier:** Tier 2 (CUS-0002).\n- **FX spread:** 0.9% over the mid-market rate, applied only once your free monthly conversion allowance is u"
+      ],
+      "latency_ms": 5724,
+      "tokens": 7335,
+      "tool_calls": [
+        {
+          "name": "get_account",
+          "arguments": {},
+          "result": {
+            "customer": {
+              "id": "CUS-0002",
+              "name": "Borys Tkachenko",
+              "tier": "tier2"
+            },
+            "accounts": [
+              {
+                "id": "ACC-1002",
+                "customer_id": "CUS-0002",
+                "currency": "EUR",
+                "balance": 8900.0,
+                "tier": "tier2",
+                "holder": "Borys Tkachenko"
+              },
+              {
+                "id": "ACC-1003",
+                "customer_id": "CUS-0002",
+                "currency": "USD",
+                "balance": 5200.75,
+                "tier": "tier2",
+                "holder": "Borys Tkachenko"
+              }
+            ]
+          }
+        },
+        {
+          "name": "search_knowledge_base",
+          "arguments": {
+            "query": "EUR to USD conversion rate, FX spread, free allowance by tier"
+          },
+          "result": {
+            "index": "kb_clean",
+            "top_k": 4,
+            "query": "EUR to USD conversion rate, FX spread, free allowance by tier",
+            "fragments": [
+              {
+                "id": "tariffs.md#s2",
+                "doc": "tariffs.md",
+                "score": 2.7735,
+                "text": "Verta tariff schedule\n## FX spreads by tier\nThe spread is applied over the mid-market rate only after the free monthly\nconversion allowance is exhausted.\n\n| Tier | FX spread | Free monthly conversion allowance |\n|---|---|---|\n| Tier 1 | 1.5% | EUR 500 |\n| Tier 2 | 0.9% | EUR 1,000 |\n| Tier 3 | 0.5% | EUR 5,000 |"
+              },
+              {
+                "id": "fx-guide.md#s1",
+                "doc": "fx-guide.md",
+                "score": 2.0616,
+                "text": "Currency conversion guide\n## How a conversion is priced\nA conversion quote has these components, in order: the mid-market rate for the\ncurrency pair; the tier spread (a percentage of the gross converted amount);\nthe free monthly conversion allowance. If the whole conversion fits within the\ncustomer's remaining monthly allowance, no spread is charged. Once the\nallowance is exhausted, the full tier spread applies to the conversion."
+              },
+              {
+                "id": "fx-operations.md#s3",
+                "doc": "fx-operations.md",
+                "score": 1.8708,
+                "text": "Currency conversion operations\n## Allowance accounting\nThe free monthly conversion allowance is counted in EUR equivalent and resets on\nthe first calendar day of each month. Allowance consumption is recorded at\nsettlement. A conversion that would cross the allowance boundary has the tier\nspread applied to the entire conversion, not only to the portion above the\nboundary."
+              },
+              {
+                "id": "tariffs.md#s1",
+                "doc": "tariffs.md",
+                "score": 1.591,
+                "text": "Verta tariff schedule\n## Account tiers\nVerta offers three account tiers: Tier 1, Tier 2 and Tier 3. The tier\ndetermines the FX spread, the free monthly conversion allowance and the\ntransfer limits."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
